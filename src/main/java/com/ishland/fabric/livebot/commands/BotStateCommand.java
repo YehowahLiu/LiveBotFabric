@@ -1,6 +1,5 @@
 package com.ishland.fabric.livebot.commands;
 
-import com.ishland.fabric.livebot.LiveBotFabric;
 import com.ishland.fabric.livebot.data.LiveBotConfig;
 import com.ishland.fabric.livebot.data.LiveBotState;
 import com.ishland.fabric.livebot.data.ServerInstance;
@@ -9,8 +8,6 @@ import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.dimension.DimensionType;
 import org.jetbrains.annotations.NotNull;
 
 public class BotStateCommand {
@@ -20,7 +17,7 @@ public class BotStateCommand {
                 CommandManager.literal("botstate")
                         .executes(ctx -> {
                             ServerPlayerEntity bot = ServerInstance.server.getPlayerManager()
-                                    .getPlayer(LiveBotConfig.INSTANCE.STREAM_BOT);
+                                    .getPlayer(LiveBotConfig.getInstance().STREAM_BOT);
                             ctx.getSource().sendFeedback(
                                     new LiteralText("Bot state: ")
                                             .append(

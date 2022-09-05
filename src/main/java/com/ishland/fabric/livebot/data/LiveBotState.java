@@ -10,6 +10,7 @@ public class LiveBotState implements Serializable {
 
     private static final Logger logger = LogManager.getLogger("LiveBotFabric DataManager");
 
+    @Serial
     private static final long serialVersionUID = -1114033116391063571L;
     private static final File data = new File("./LiveBotFabric/data.dat");
     private static LiveBotState instance = null;
@@ -31,10 +32,12 @@ public class LiveBotState implements Serializable {
         return instance != null ? instance : new LiveBotState();
     }
 
+    @Serial
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
     }
 
+    @Serial
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();
     }

@@ -7,7 +7,8 @@
     "server.MixinCommandManager",
     "server.MixinDedicatedServerInstance",
     "server.MixinDedicatedServerShutdown",
-    "server.MixinDedicatedServerTick"
+    "server.MixinDedicatedServerTick",
+    "server.MixinPlayerManager"
   ],
   "injectors": {
     "defaultRequire": 1

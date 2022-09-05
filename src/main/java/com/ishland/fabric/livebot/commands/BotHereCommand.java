@@ -1,8 +1,7 @@
 package com.ishland.fabric.livebot.commands;
 
-import com.ishland.fabric.livebot.LiveBotFabric;
 import com.ishland.fabric.livebot.data.LiveBotConfig;
-import com.ishland.fabric.livebot.data.LiveBotState;
+import com.ishland.fabric.livebot.entity.LiveBot;
 import com.ishland.fabric.livebot.data.ServerInstance;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
@@ -59,14 +58,13 @@ public class BotHereCommand {
     static boolean doTeleport(CommandContext<ServerCommandSource> ctx, Entity target) {
         ServerPlayerEntity bot =
                 ServerInstance.server.getPlayerManager()
-                        .getPlayer(LiveBotConfig.INSTANCE.STREAM_BOT);
+                        .getPlayer(LiveBotConfig.getInstance().STREAM_BOT);
         if (bot == null) {
             ctx.getSource().sendFeedback(
                     new LiteralText("Bot is not online"), true);
             return false;
         }
-
-        LiveBotFabric.teleport(bot, target, false);
+        LiveBot.getInstance().teleport(target, false);
 
         ctx.getSource().sendFeedback(
                 new LiteralText("Successfully teleported Bot to " +

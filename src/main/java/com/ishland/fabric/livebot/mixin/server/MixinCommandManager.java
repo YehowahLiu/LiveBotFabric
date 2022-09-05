@@ -1,6 +1,7 @@
 package com.ishland.fabric.livebot.mixin.server;
 
 import com.ishland.fabric.livebot.MixinLogger;
+import com.ishland.fabric.livebot.commands.BotBossbarCommand;
 import com.ishland.fabric.livebot.commands.BotFollowCommand;
 import com.ishland.fabric.livebot.commands.BotHereCommand;
 import com.ishland.fabric.livebot.commands.BotStateCommand;
@@ -22,9 +23,9 @@ public class MixinCommandManager {
     @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/command/MeCommand;register(Lcom/mojang/brigadier/CommandDispatcher;)V"))
     public void registerCommands(CommandManager.RegistrationEnvironment environment, CallbackInfo ci) {
         MixinLogger.logger.info("Registering commands...");
-        BotHereCommand.register(this.dispatcher);
-        BotFollowCommand.register(this.dispatcher);
-        BotStateCommand.register(this.dispatcher);
+        BotHereCommand.register(dispatcher);
+        BotFollowCommand.register(dispatcher);
+        BotStateCommand.register(dispatcher);
+        BotBossbarCommand.register(dispatcher);
     }
-
 }
