@@ -3,18 +3,55 @@ package com.ishland.fabric.livebot.commands;
 import com.ishland.fabric.livebot.data.LiveBotConfig;
 import com.ishland.fabric.livebot.data.LiveBotState;
 import com.ishland.fabric.livebot.data.ServerInstance;
+import com.ishland.fabric.livebot.entity.Bossbar;
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.Style;
+import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.NotNull;
 
-public class BotStateCommand {
+import java.util.List;
 
+public class BotStateCommand {
+    private static final List<String> states = List.of("always", "online", "never");
     public static void register(@NotNull CommandDispatcher<ServerCommandSource> commandDispatcher) {
+        LiveBotConfig config = LiveBotConfig.getInstance();
         commandDispatcher.register(
                 CommandManager.literal("botstate")
+                        .then(
+                                CommandManager.literal("display")
+                                        .then(
+                                                CommandManager.argument("state", StringArgumentType.word())
+                                                        .suggests((ctx,builder)->{
+                                                            for (String state: states) {
+                                                                if(state.startsWith(builder.getRemaining().toLowerCase()))
+                                                                    builder.suggest(state);
+                                                            }
+                                                            return builder.buildFuture();
+                                                        })
+                                                        .executes(ctx->{
+                                                            String state = StringArgumentType.getString(ctx, "state");
+                                                            if(!states.contains(state)){
+                                                                ctx.getSource().sendFeedback(
+                                                                        new LiteralText("Error argument!")
+                                                                                .setStyle(Style.EMPTY.withColor(Formatting.RED)),
+                                                                        false);
+                                                                return -1;
+                                                            }
+                                                            config.BOSSBAR_DISPLAY = LiveBotConfig.DisplayType.valueOf(state.toUpperCase());
+                                                            sendState(ctx);
+                                                            return 1;
+                                                        })
+                                        ).executes(ctx -> {
+                                            sendState(ctx);
+                                            return 1;
+                                        })
+                        )
                         .executes(ctx -> {
                             ServerPlayerEntity bot = ServerInstance.server.getPlayerManager()
                                     .getPlayer(LiveBotConfig.getInstance().STREAM_BOT);
@@ -70,4 +107,14 @@ public class BotStateCommand {
         );
     }
 
+    private static void sendState(CommandContext<ServerCommandSource> ctx) {
+        Bossbar.getInstance().checkDisplay();
+        String payload = "Bossbar of livebot is set to";
+        switch (LiveBotConfig.getInstance().BOSSBAR_DISPLAY){
+            case ONLINE -> payload += " display when bot online";
+            case NEVER -> payload += " always display";
+            default -> payload += " never display";
+        }
+        ctx.getSource().sendFeedback(new LiteralText(payload), false);
+    }
 }

@@ -40,8 +40,13 @@ public class LiveBotConfig {
     public String STREAM_BOT = "undefined";
     public double REFRESH_DISTANCE = 96;
     public int REFRESH_DELAY = 5;
-    public boolean BOSSBAR_DISPLAY = true;
-    public boolean BOSSBAR_DISPLAY_OFFLINE = false;
+    public DisplayType BOSSBAR_DISPLAY = DisplayType.ONLINE;
+
+    public enum DisplayType {
+        ALWAYS,
+        ONLINE,
+        NEVER;
+    }
 
     private LiveBotConfig() {
     }
@@ -53,11 +58,10 @@ public class LiveBotConfig {
     @Override
     public String toString() {
         return "LiveBotConfig{" +
-                "STREAM_BOT='" + this.STREAM_BOT + '\'' +
-                ", REFRESH_DISTANCE=" + this.REFRESH_DISTANCE +
-                ", REFRESH_DELAY=" + this.REFRESH_DELAY +
-                ", BOSSBAR_DISPLAY="+ this.BOSSBAR_DISPLAY +
-                ", BOSSBAR_DISPLAY_OFFLINE="+ this.BOSSBAR_DISPLAY_OFFLINE +
+                "STREAM_BOT='" + STREAM_BOT + '\'' +
+                ", REFRESH_DISTANCE=" + REFRESH_DISTANCE +
+                ", REFRESH_DELAY=" + REFRESH_DELAY +
+                ", BOSSBAR_SWITCH=" + BOSSBAR_DISPLAY +
                 '}';
     }
 }

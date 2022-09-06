@@ -1,7 +1,6 @@
 package com.ishland.fabric.livebot.mixin.server;
 
 import com.ishland.fabric.livebot.MixinLogger;
-import com.ishland.fabric.livebot.commands.BotBossbarCommand;
 import com.ishland.fabric.livebot.commands.BotFollowCommand;
 import com.ishland.fabric.livebot.commands.BotHereCommand;
 import com.ishland.fabric.livebot.commands.BotStateCommand;
@@ -26,6 +25,5 @@ public class MixinCommandManager {
         BotHereCommand.register(dispatcher);
         BotFollowCommand.register(dispatcher);
         BotStateCommand.register(dispatcher);
-        BotBossbarCommand.register(dispatcher);
     }
 }

@@ -23,7 +23,7 @@ public class MixinPlayerManager {
         if (LiveBotConfig.getInstance().STREAM_BOT.equals(player.getDisplayName().asString())) {
             LiveBot.getInstance().onBotJoin(player);
         }
-        Bossbar.getInstance().onPlayerConnect(player);
+        Bossbar.getInstance().onPlayerConnect();
     }
 
     @Inject(
@@ -36,6 +36,6 @@ public class MixinPlayerManager {
         if (LiveBotConfig.getInstance().STREAM_BOT.equals(player.getDisplayName().asString())) {
             LiveBot.getInstance().onBotLeft();
         }
-        Bossbar.getInstance().onPlayerDisconnect(player);
+        Bossbar.getInstance().onPlayerDisconnect();
     }
 }

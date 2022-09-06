@@ -1,8 +1,6 @@
 package com.ishland.fabric.livebot.commands;
 
-import com.ishland.fabric.livebot.data.LiveBotConfig;
 import com.ishland.fabric.livebot.entity.LiveBot;
-import com.ishland.fabric.livebot.data.ServerInstance;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.command.argument.EntityArgumentType;
@@ -54,9 +52,7 @@ public class BotFollowCommand {
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     static boolean doSpectate(CommandContext<ServerCommandSource> ctx, Entity target) {
-        ServerPlayerEntity bot =
-                ServerInstance.server.getPlayerManager()
-                        .getPlayer(LiveBotConfig.getInstance().STREAM_BOT);
+        ServerPlayerEntity bot = LiveBot.getInstance().getBot();
         if (bot == null) {
             ctx.getSource().sendFeedback(
                     new LiteralText("Bot is not online"), true);

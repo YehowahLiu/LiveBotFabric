@@ -30,12 +30,10 @@ public class LiveBot {
 
     public void onBotJoin(ServerPlayerEntity player) {
         this.bot = player;
-        Bossbar.getInstance().checkDisplay();
     }
 
     public void onBotLeft() {
         this.bot = null;
-        Bossbar.getInstance().checkDisplay();
     }
 
     public ServerPlayerEntity getBot() {
